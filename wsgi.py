@@ -121,7 +121,12 @@ app.layout = html.Div(children=[
         ),
     ]),
 
-    dcc.Graph(id='line-plot'),
+    html.Div([
+        html.H2(id='graph-title'),
+
+        dcc.Graph(id='line-plot'),
+    ]),
+
 
     html.P(
         children=f"Version {VERSION}",
@@ -176,6 +181,19 @@ def set_other_keyword_options(
     ]
 
     return updated_kw_options, updated_kw_options, updated_kw_options
+
+
+@app.callback(
+    Output('graph-title', 'children'),
+    [
+        Input('keyword-picker', 'value'),
+    ]
+)
+def update_graph_title(
+        keyword,
+):
+    return f"Cosine similarity to '{keyword}'"
+
 
 
 @app.callback(
