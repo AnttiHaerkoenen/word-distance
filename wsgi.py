@@ -33,12 +33,12 @@ def get_distances(
     for year, m in lang_data.items():
         if kw1 in m.index and kw2 in m.index:
             y.append(m.loc[kw1, kw2])
-            x.append(year)
+            x.append(year + 10)
 
     return x, y
 
 
-def get_similarity_range(
+def get_y_range(
         data: dict,
 ):
     y_min = min(
@@ -230,6 +230,7 @@ def update_graph(
         raise PreventUpdate
 
     data = []
+    language_data = distance_data[language]
 
     for kw in other_keywords:
         x, y = get_distances(
@@ -252,7 +253,11 @@ def update_graph(
         'layout': {
             'yaxis': {
                 'autorange': False,
-                'range': get_similarity_range(distance_data[language]),
+                'range': get_y_range(language_data),
+            },
+            'xaxis': {
+                'autorange': False,
+                'range': [min(language_data), max(language_data) + 20],
             },
         },
     }
