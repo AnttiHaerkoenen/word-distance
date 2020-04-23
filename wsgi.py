@@ -38,6 +38,22 @@ def get_distances(
     return x, y
 
 
+def get_similarity_range(
+        data: dict,
+):
+    y_min = min(
+        df.min().min()
+        for df
+        in data.values()
+    )
+    y_max = max(
+        df.max().max()
+        for df
+        in data.values()
+    )
+    return y_min, y_max
+
+
 distance_data = {
     'fi': {
         year: pd.read_csv(data_dir + f'distance_matrix_fi_{year}.csv', index_col=0)
@@ -195,7 +211,6 @@ def update_graph_title(
     return f"Cosine similarity to '{keyword}'"
 
 
-
 @app.callback(
     Output('line-plot', 'figure'),
     [
@@ -234,6 +249,12 @@ def update_graph(
 
     return {
         'data': data,
+        'layout': {
+            'yaxis': {
+                'autorange': False,
+                'range': get_similarity_range(distance_data[language]),
+            },
+        },
     }
 
 
