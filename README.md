@@ -13,3 +13,7 @@ First full version
 ### 2020.1
 
 Scale y-axis based on all similarity values of a language, scale x axis with data
+
+### 2020.2
+
+Display year range & rounded values

@@ -23,19 +23,21 @@ def get_distances(
         data,
 ):
     if not kw1 or not kw2:
-        return None, None
+        return None, None, None
 
     lang_data = data.get(language)
 
     x = []
     y = []
+    text = []
 
     for year, m in lang_data.items():
         if kw1 in m.index and kw2 in m.index:
             y.append(m.loc[kw1, kw2])
             x.append(year + 10)
+            text.append(f'{year}-{year + 20}')
 
-    return x, y
+    return x, y, text
 
 
 def get_y_range(
@@ -56,20 +58,29 @@ def get_y_range(
 
 distance_data = {
     'fi': {
-        year: pd.read_csv(data_dir + f'distance_matrix_fi_{year}.csv', index_col=0)
+        year: pd.read_csv(
+            data_dir + f'distance_matrix_fi_{year}.csv',
+            index_col=0,
+        ).round(3)
         for year
         in range(1820, 1881, 20)
     },
     'sv': {
-        year: pd.read_csv(data_dir + f'distance_matrix_sv_{year}.csv', index_col=0)
+        year: pd.read_csv(
+            data_dir + f'distance_matrix_sv_{year}.csv',
+            index_col=0,
+        ).round(3)
         for year
         in range(1740, 1901, 20)
     },
     # 'en': {
-    #     year: pd.read_csv(data_dir + f'distance_matrix_en_{year}.csv', index_col=0)
+    #     year: pd.read_csv(
+    #         data_dir + f'distance_matrix_en_{year}.csv',
+    #         index_col=0,
+    #     ).round(3)
     #     for year
     #     in range(1820, 1881, 20)
-    # }
+    # },
 }
 
 keyword_options = {
@@ -230,10 +241,10 @@ def update_graph(
         raise PreventUpdate
 
     data = []
-    language_data = distance_data[language]
+    language_data = distance_data.get(language)
 
     for kw in other_keywords:
-        x, y = get_distances(
+        x, y, text = get_distances(
             language,
             keyword,
             kw,
@@ -244,6 +255,7 @@ def update_graph(
             {
                 'x': x,
                 'y': y,
+                'text': text,
                 'name': kw,
             }
         )
