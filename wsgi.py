@@ -6,7 +6,7 @@ from dash.exceptions import PreventUpdate
 import pandas as pd
 
 
-VERSION = 2020.0
+VERSION = 2020.2
 data_dir = 'https://raw.githubusercontent.com/AnttiHaerkoenen/grand_duchy/master/data/processed/'
 
 languages = {
