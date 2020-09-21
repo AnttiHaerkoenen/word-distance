@@ -7,7 +7,7 @@ import pandas as pd
 
 
 VERSION = 2020.2
-data_dir = 'https://raw.githubusercontent.com/AnttiHaerkoenen/grand_duchy/master/data/processed/'
+data_dir = 'https://raw.githubusercontent.com/AnttiHaerkoenen/grand_duchy/master/data/processed/distances/'
 
 languages = {
     'Finnish': 'fi',
@@ -59,7 +59,7 @@ def get_y_range(
 distance_data = {
     'fi': {
         year: pd.read_csv(
-            data_dir + f'distance_matrix_fi_{year}.csv',
+            data_dir + f'fi_{year}.csv',
             index_col=0,
         ).round(3)
         for year
@@ -67,7 +67,7 @@ distance_data = {
     },
     'sv': {
         year: pd.read_csv(
-            data_dir + f'distance_matrix_sv_{year}.csv',
+            data_dir + f'sv_{year}.csv',
             index_col=0,
         ).round(3)
         for year
@@ -75,7 +75,7 @@ distance_data = {
     },
     # 'en': {
     #     year: pd.read_csv(
-    #         data_dir + f'distance_matrix_en_{year}.csv',
+    #         data_dir + f'en_{year}.csv',
     #         index_col=0,
     #     ).round(3)
     #     for year
@@ -279,5 +279,5 @@ if __name__ == '__main__':
     app.run_server(
         port=8080,
         host='0.0.0.0',
-        debug=True,
+        # debug=True,
     )
